@@ -11,16 +11,6 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/api/users/**
-          filters:
-            - StripPrefix=2
-        - id: product-services
-          uri: lb://product-services
-          predicates:
-            - Path=/api/products/**
-          filters:
-            - StripPrefix=2
+      discovery:
+        locator:
+          enabled: true
