@@ -9,6 +9,10 @@ eureka:
 spring:
   application:
     name: product-services
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: my-group-id
   circuitbreaker:
     resilience4j:
       instances:
