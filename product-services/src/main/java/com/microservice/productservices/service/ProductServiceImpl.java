@@ -28,6 +28,7 @@ public class ProductServiceImpl implements ProductService{
         }
         var productJpa = productRepository.save(productMapper.fromProductDtoToProduct(productDTO));
         return ProductAddResponse.builder()
+                .id(productJpa.getId())
                 .name(productJpa.getName())
                 .price(productJpa.getPrice())
                 .userDTO(user)
