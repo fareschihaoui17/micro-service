@@ -9,6 +9,20 @@ eureka:
 spring:
   application:
     name: product-services
+  circuitbreaker:
+    resilience4j:
+      instances:
+        productClient:
+          circuitbreaker:
+            registerHealthIndicator: true
+            enabled: true
+            failureRateThreshold: 50
+            waitDurationInOpenState: 10000
+            permittedNumberOfCallsInHalfOpenState: 10
+            slidingWindowSize: 10
+            slidingWindowType: COUNT_BASED
+            minimumNumberOfCalls: 5
+            eventConsumerBufferSize: 10
   datasource:
     url: jdbc:mysql://localhost:3306/productdb
     username: root
