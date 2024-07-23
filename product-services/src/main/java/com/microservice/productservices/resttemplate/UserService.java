@@ -16,7 +16,7 @@ public class UserService {
 
     public UserDTO getUserById(Long id) throws ProjectException {
         var url = UriComponentsBuilder
-                .fromUriString("http://localhost:8081/api/users/{id}")
+                .fromUriString("http://localhost:8080/api/users/{id}")
                 .buildAndExpand(id)
                 .toUriString();
 

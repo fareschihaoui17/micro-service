@@ -6,6 +6,7 @@ import com.microservice.productservices.service.ProductService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +24,18 @@ public class ProductController {
 
     @GetMapping("/allProducts")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllUsers());
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ProductAddResponse> createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductAddResponse> createProductByUser(@RequestBody ProductDTO productDTO) {
         return ResponseEntity.ok(productService.addProductByUser(productDTO));
+    }
+
+    @PostMapping("/async/add")
+    @Transactional
+    public ResponseEntity<ProductAddResponse> createAsyncProductByUser(@RequestBody ProductDTO productDTO) {
+        return ResponseEntity.ok(productService.addProductAsyncByUser(productDTO));
     }
 
 }

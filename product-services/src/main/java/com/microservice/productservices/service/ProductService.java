@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ProductService {
     ProductAddResponse addProductByUser(ProductDTO productDTO);
-    List<ProductDTO> getAllUsers();
+    ProductAddResponse addProductAsyncByUser(ProductDTO productDTO);
+    List<ProductDTO> getAllProducts();
 }
