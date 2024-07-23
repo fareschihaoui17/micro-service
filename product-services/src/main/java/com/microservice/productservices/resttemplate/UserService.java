@@ -14,7 +14,7 @@ public class UserService {
 
     private final RestTemplate restTemplate;
 
-    public UserDTO getUserById(Long id) throws ProjectException {
+    public UserDTO getUserById(String id) throws ProjectException {
         var url = UriComponentsBuilder
                 .fromUriString("http://localhost:8080/api/users/{id}")
                 .buildAndExpand(id)

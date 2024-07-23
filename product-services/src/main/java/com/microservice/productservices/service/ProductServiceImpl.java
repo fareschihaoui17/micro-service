@@ -2,10 +2,13 @@ package com.microservice.productservices.service;
 
 import com.microservice.productservices.dto.ProductAddResponse;
 import com.microservice.productservices.dto.ProductDTO;
+import com.microservice.productservices.dto.UserDTO;
+import com.microservice.productservices.entity.Product;
 import com.microservice.productservices.exception.ProjectException;
 import com.microservice.productservices.feign.UserClient;
 import com.microservice.productservices.mapper.ProductMapper;
 import com.microservice.productservices.repository.ProductRepository;
+import com.microservice.productservices.resttemplate.UserService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +25,9 @@ public class ProductServiceImpl implements ProductService{
     private final UserClient userClient;
     private final ProductMapper productMapper;
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final UserService userService;
     private static final String USER_NOT_FOUND = "User not found";
+    private static final String PRODUCT_NOT_FOUND = "Product not found";
     private static final String TOPIC = "product-topic";
 
     @Override
@@ -68,5 +73,34 @@ public class ProductServiceImpl implements ProductService{
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll()
                 .stream().map(productMapper::fromProductToProductDto).toList();
+    }
+
+    @Override
+    public UserDTO getProductOwner(Long productId) {
+        var product = getProductJpa(productId);
+        return userService.getUserById(product.getUserId());
+    }
+
+    @Override
+    public ProductDTO getProductById(Long productId) {
+        return productMapper.fromProductToProductDto(getProductJpa(productId));
+    }
+
+    @Override
+    public ProductDTO updateProduct(Long productId, ProductDTO productDTO) {
+        var product = getProductJpa(productId);
+        product.setPrice(productDTO.getPrice());
+        product.setName(productDTO.getName());
+        productRepository.save(product);
+        return productMapper.fromProductToProductDto(product);
+    }
+
+    @Override
+    public void deleteProduct(Long productId) {
+        productRepository.delete(getProductJpa(productId));
+    }
+
+    private Product getProductJpa(Long productId) {
+        return  productRepository.findById(productId).orElseThrow(()->new ProjectException(HttpStatus.NOT_FOUND,PRODUCT_NOT_FOUND));
     }
 }
