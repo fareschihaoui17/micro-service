@@ -13,3 +13,8 @@ services:
       - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
     depends_on:
       - eureka-server
+
+  eureka-server:
+      image: eureka-server:latest
+      ports:
+        - "8761:8761"
