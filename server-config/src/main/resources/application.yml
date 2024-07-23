@@ -9,3 +9,4 @@ spring:
       server:
         git:
           uri: https://github.com/fareschihaoui17/micro-service
+          clone-on-start: true
