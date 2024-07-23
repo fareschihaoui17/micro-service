@@ -12,10 +12,10 @@ public interface UserClient {
 
     @GetMapping("/api/users/{id}")
     @CircuitBreaker(name = "userClient", fallbackMethod = "getUserByIdFallback")
-    UserDTO getUserById(@PathVariable Long id) throws ProjectException;
+    UserDTO getUserById(@PathVariable String id) throws ProjectException;
 
 
-    default UserDTO getUserByIdFallback(Long id, Throwable throwable) {
+    default UserDTO getUserByIdFallback(String id, Throwable throwable) {
         return UserDTO.builder()
                 .id(id)
                 .firstName("fake firstName")

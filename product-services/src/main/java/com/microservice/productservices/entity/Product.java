@@ -24,5 +24,5 @@ public class Product {
     private Long id;
     private String name;
     private Double price;
-    private Long userId;
+    private String userId;
 }

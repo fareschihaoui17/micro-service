@@ -9,16 +9,10 @@ eureka:
 spring:
   application:
     name: user-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/userdb
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: my-group-id
-  datasource:
-    url: jdbc:mysql://localhost:3306/userdb
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
